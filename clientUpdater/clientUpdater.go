@@ -214,9 +214,13 @@ func main() {
 	// if fabric isn't there, install it
 	if !foundValidFabric {
 		fmt.Println("> Installing designated Fabric + Minecraft version.")
-		installFabric := exec.Command("java", "-jar", bundledFabricInstaller, "client", "-dir", "'"+minecraftPath+"'", "-mcversion", config.MCVersion)
-		installFabric.Start()
-		fmt.Println("> Install complete.")
+		installFabric := exec.Command("java", "-jar", bundledFabricInstaller, "client", "-dir", minecraftPath, "-mcversion", config.MCVersion)
+		err = installFabric.Run()
+		if err != nil {
+			fmt.Printf("Fabric Install Error: %s\n", err)
+		} else {
+			fmt.Println("> Install complete.")
+		}
 	} else {
 		fmt.Println("> Fabric + Minecraft version already installed.")
 	}
